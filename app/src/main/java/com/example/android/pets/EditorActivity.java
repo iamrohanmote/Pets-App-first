@@ -2,6 +2,7 @@ package com.example.android.pets;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -78,7 +79,7 @@ public class EditorActivity extends AppCompatActivity {
                 }
             }
 
-            // Because AdapterView is an abstract class, onNothingSelected must be defined
+            // Because AdapterView is an abstract class, onNothingSelected musttt be defined
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 mGender = petsEntry.GENDER_UNKNOWN;
@@ -110,11 +111,11 @@ public class EditorActivity extends AppCompatActivity {
         values.put(petsEntry.COLUMN_WEIGHT, actualWeight);
         values.put(petsEntry.COLUMN_GENDER, genderString);
 
-        long num = db.insert(petsEntry.TABLE_NAME, null, values);
-        if (num == -1) {
+        Uri uri = getContentResolver().insert(petsEntry.CONTENT_URI, values);
+        if (uri == null) {
             Toast.makeText(this, "Error while entering the data", Toast.LENGTH_LONG).toString();
         } else {
-            Toast.makeText(EditorActivity.this, "Pet entered at location " + num, Toast.LENGTH_SHORT).show();
+            Toast.makeText(EditorActivity.this, "Pet entered at successfully!!", Toast.LENGTH_SHORT).show();
         }
     }
 

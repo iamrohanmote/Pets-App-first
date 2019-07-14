@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -53,9 +54,9 @@ public class CatalogActivity extends AppCompatActivity {
      */
     private void displayDatabaseInfo() {
 
-        PetsDbHelper mDbHelper = new PetsDbHelper(this);
-
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+//        PetsDbHelper mDbHelper = new PetsDbHelper(this);
+//
+//        SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         String[] projection = {
                 petsEntry._ID,
@@ -64,15 +65,20 @@ public class CatalogActivity extends AppCompatActivity {
                 petsEntry.COLUMN_WEIGHT,
                 petsEntry.COLUMN_GENDER};
 
-        Cursor cursor = db.query(
-                petsEntry.TABLE_NAME,
-                projection,
-                null,
-                null,
-                null,
-                null,
-                null);
+        /**   Cursor cursor = db.query(
+         petsEntry.TABLE_NAME,
+         projection,
+         null,
+         null,
+         null,
+         null,
+         null);
+
+         */
         TextView displayView = (TextView) findViewById(R.id.text_view_pet);
+
+        Cursor cursor = getContentResolver().query(petsEntry.CONTENT_URI, projection, null, null, null);
+
 
         try {
 
@@ -122,8 +128,7 @@ public class CatalogActivity extends AppCompatActivity {
         values.put(petsEntry.COLUMN_WEIGHT, 7);
         values.put(petsEntry.COLUMN_GENDER, 1);
 
-        db.insert(petsEntry.TABLE_NAME, null, values);
-
+        Uri uri = getContentResolver().insert(petsEntry.CONTENT_URI, values);
     }
 
 
